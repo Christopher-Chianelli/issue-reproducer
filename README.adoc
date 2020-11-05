@@ -1,0 +1,13 @@
+= Issue Reproducer: Drools Classloader does not work in Spring Fat Jar for Executable Model
+
+To reproduce:
+`mvn clean install`
+`java -jar target/DroolsExecutableReproducer-8.0.0-SNAPSHOT-exec.jar`
+
+Expected:
+Print 70
+
+Actual:
+An exception related to not being able to find class files. In
+particular, it trying to find the class files in the main jar,
+when they are actually stored in BOOT-INF/drools-lib.jar.
