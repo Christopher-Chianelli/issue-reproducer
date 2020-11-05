@@ -58,7 +58,7 @@
   </dependencyManagement>
 
   <dependencies>
-    <!-- <dependency>
+    <dependency>
       <groupId>org.kie.kogito</groupId>
       <artifactId>kogito-api</artifactId>
     </dependency>
@@ -93,11 +93,6 @@
           <artifactId>kie-internal</artifactId>
         </exclusion>
       </exclusions>
-    </dependency> -->
-
-    <dependency>
-      <groupId>org.optaplanner</groupId>
-      <artifactId>optaplanner-spring-boot-starter</artifactId>
     </dependency>
 
     <dependency>

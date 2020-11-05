@@ -1,14 +1,14 @@
 package org.optaplanner.drools.component;
 dialect "java"
 
+import org.optaplanner.drools.component.Fare;
 import org.optaplanner.drools.component.TaxiRide;
-import org.optaplanner.core.api.score.buildin.simple.SimpleScoreHolder;
 
-global SimpleScoreHolder scoreHolder;
+global Fare rideFare;
 
 rule "Calculate Taxi Fare"
     when
 	    TaxiRide(distanceInMile < 10)
 	then
-        scoreHolder.penalize(kcontext, 1);
+	    rideFare.setRideFare(70);
 end
