@@ -20,7 +20,6 @@
     <maven.compiler.parameters>true</maven.compiler.parameters>
     <compiler-plugin.version>3.8.1</compiler-plugin.version>
     <spring.platform.version>2.2.6.RELEASE</spring.platform.version>
-    <version.kie>7.46.0.t20201030</version.kie>
 
     <surefire-plugin.version>2.22.1</surefire-plugin.version>
   </properties>
@@ -31,28 +30,6 @@
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-web</artifactId>
         <version>${spring.platform.version}</version>
-      </dependency>
-
-      <dependency>
-        <groupId>org.drools</groupId>
-        <artifactId>drools-mvel-compiler</artifactId>
-        <version>${version.kie}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.drools</groupId>
-        <artifactId>drools-mvel-parser</artifactId>
-        <version>${version.kie}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.drools</groupId>
-        <artifactId>drools-mvel</artifactId>
-        <version>${version.kie}</version>
-      </dependency>
-
-      <dependency>
-        <groupId>org.kie</groupId>
-        <artifactId>kie-spring</artifactId>
-        <version>${version.kie}</version>
       </dependency>
     </dependencies>
   </dependencyManagement>
@@ -84,16 +61,6 @@
       <artifactId>drools-core-dynamic</artifactId>
       <scope>runtime</scope>
     </dependency>
-    <dependency>
-      <groupId>org.drools</groupId>
-      <artifactId>drools-mvel</artifactId>
-      <exclusions>
-        <exclusion>
-          <groupId>org.kie</groupId>
-          <artifactId>kie-internal</artifactId>
-        </exclusion>
-      </exclusions>
-    </dependency>
 
     <dependency>
       <groupId>org.springframework.boot</groupId>
@@ -102,27 +69,6 @@
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-autoconfigure</artifactId>
-    </dependency>
-
-    <dependency>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-configuration-processor</artifactId>
-      <optional>true</optional>
-    </dependency>
-    <dependency>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-autoconfigure-processor</artifactId>
-      <optional>true</optional>
-    </dependency>
-    <dependency>
-      <groupId>org.springframework</groupId>
-      <artifactId>spring-web</artifactId>
-      <optional>true</optional>
-    </dependency>
-    <dependency>
-      <groupId>com.fasterxml.jackson.core</groupId>
-      <artifactId>jackson-databind</artifactId>
-      <optional>true</optional>
     </dependency>
 
   </dependencies>
