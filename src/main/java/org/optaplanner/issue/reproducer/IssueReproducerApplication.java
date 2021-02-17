@@ -12,6 +12,6 @@ public class IssueReproducerApplication {
     private static final Logger LOGGER = Logger.getLogger("ListenerBean");
 
     void onStart(@Observes StartupEvent ev) {
-        // Create reproducer here
+        // Nothing needed to reproduce
     }
 }
