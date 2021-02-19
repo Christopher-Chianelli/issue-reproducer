@@ -26,6 +26,9 @@ public class IssueReproducerApplication {
         b.persist();
         c.persist();
 
+        List<MyEntity> shouldBeA = MyEntity.getEntitiesWithNamesAndLifeStatus(a.id, Collections.singleton("A"), true);
+        LOGGER.info(shouldBeA.stream().map(MyEntity::toString).collect(Collectors.joining(", ", "[", "]")));
+
         List<MyEntity> shouldBeEmpty = MyEntity.getEntitiesWithNamesAndLifeStatus(0L, Collections.emptySet(), false);
         LOGGER.info(shouldBeEmpty.stream().map(MyEntity::toString).collect(Collectors.joining(", ", "[", "]")));
     }
