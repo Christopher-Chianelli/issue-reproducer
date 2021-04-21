@@ -1,0 +1,14 @@
+---
+name: "My Ext"
+description: "My Ext ..."
+metadata:
+  keywords:
+  - "my-ext"
+  guide: "..."
+  categories:
+  - "miscellaneous"
+  status: "preview"
+  built-with-quarkus-core: "1.13.2.Final"
+group-id: "org.acme"
+artifact-id: "my-ext"
+version: "1.0.0-SNAPSHOT"

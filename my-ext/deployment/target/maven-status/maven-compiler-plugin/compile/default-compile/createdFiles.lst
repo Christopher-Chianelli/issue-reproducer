@@ -1,0 +1,4 @@
+META-INF/quarkus-javadoc.properties
+org/acme/my/ext/deployment/MyExtProcessor$$accessor.class
+META-INF/quarkus-build-steps.list
+org/acme/my/ext/deployment/MyExtProcessor.class
