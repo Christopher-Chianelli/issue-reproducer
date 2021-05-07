@@ -1,10 +1,5 @@
 = Reproducer
 
-When only scoreManager is used, it works correctly (score -1).
-If you inject solverManager, however, it fails (score 0). You
-don't even need to use solverManager; injection is enough.
+`mvn quarkus:dev` should print "James Bond detected." if a variant of `drools.propertySpecific=ALLOWED` is specified in application.properties (to configure default behavior), but currently all variants of `drools.propertySpecific` is ignored.
 
-The only thing inject does is create a SolverManager
-instance (which in turn create a Solver instance),
-so it seems the act of creating a Solver modifies the
-Score Director.
+Class annotation `@ClassReactive` works, but if you want the default to be `@ClassReactive`, you would need to annotate every class.

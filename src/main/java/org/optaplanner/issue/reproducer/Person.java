@@ -1,42 +1,42 @@
 package org.optaplanner.issue.reproducer;
 
-import org.optaplanner.core.api.domain.entity.PlanningEntity;
-import org.optaplanner.core.api.domain.variable.PlanningVariable;
+// ClassReactive annotation works
+// import org.kie.api.definition.type.ClassReactive;
 
-@PlanningEntity
+// @ClassReactive
 public class Person {
-    String name;
+    String firstName;
+    String lastName;
 
-    @PlanningVariable(valueRangeProviderRefs = "valueRange")
-    String value;
-
-    public Person() {
+    public Person(String firstName, String lastName) {
+        this.firstName = firstName;
+        this.lastName = lastName;
     }
 
-    public Person(String name) {
-        this.name = name;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public String getName() {
-        return name;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public String getLastName() {
+        return lastName;
     }
 
-    public String getValue() {
-        return value;
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
-    public void setValue(String value) {
-        this.value = value;
+    public String getFullName() {
+        return firstName + " " + lastName;
     }
 
     @Override public String toString() {
         return "Person{" +
-                "name='" + name + '\'' +
-                ", value='" + value + '\'' +
+                "firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
                 '}';
     }
 }
