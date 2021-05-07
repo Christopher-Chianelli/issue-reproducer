@@ -1,0 +1,14 @@
+package org.optaplanner.issue.reproducer;
+    dialect "java"
+
+import org.optaplanner.issue.reproducer.Person;
+import org.optaplanner.core.api.score.buildin.simple.SimpleScoreHolder;
+
+global SimpleScoreHolder scoreHolder;
+
+rule "A person with value v1 should trigger this"
+    when
+        Person(value == "v1")
+    then
+        scoreHolder.addConstraintMatch(kcontext, -1);
+end

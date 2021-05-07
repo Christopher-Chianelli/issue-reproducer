@@ -6,19 +6,44 @@
   <parent>
     <groupId>org.optaplanner</groupId>
     <artifactId>optaplanner-build-parent</artifactId>
-    <version>8.0.0-SNAPSHOT</version>
+    <version>8.7.0-SNAPSHOT</version>
     <relativePath/>
   </parent>
 
   <groupId>org.optaplanner</groupId>
   <artifactId>issue-reproducer</artifactId>
-  <version>8.0.0-SNAPSHOT</version>
+  <version>8.7.0-SNAPSHOT</version>
   <name>Issue Reproducer</name>
+
+  <properties>
+    <java.module.name>issue.reproducer</java.module.name>
+  </properties>
+
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>io.quarkus</groupId>
+        <artifactId>quarkus-bom</artifactId>
+        <version>${version.io.quarkus}</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
 
   <dependencies>
     <dependency>
+      <groupId>io.quarkus</groupId>
+      <artifactId>quarkus-arc</artifactId>
+    </dependency>
+    <dependency>
       <groupId>org.optaplanner</groupId>
       <artifactId>optaplanner-quarkus</artifactId>
+      <version>8.7.0-SNAPSHOT</version>
+    </dependency>
+    <dependency>
+      <groupId>org.kie.kogito</groupId>
+      <artifactId>kogito-quarkus-rules</artifactId>
     </dependency>
   </dependencies>
 
@@ -37,6 +62,7 @@
       <plugin>
         <groupId>io.quarkus</groupId>
         <artifactId>quarkus-maven-plugin</artifactId>
+        <version>${version.io.quarkus}</version>
         <executions>
           <execution>
             <goals>
