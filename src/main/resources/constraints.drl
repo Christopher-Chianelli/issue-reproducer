@@ -5,7 +5,7 @@ import org.optaplanner.issue.reproducer.Person;
 
 rule "Print security alert when James Bond is detected"
     when
-        Person(fullName == "James Bond")
+        Person(name == "James Bond")
     then
         System.out.println("James Bond detected.");
 end

@@ -40,6 +40,10 @@
       <groupId>org.kie.kogito</groupId>
       <artifactId>kogito-quarkus-rules</artifactId>
     </dependency>
+    <dependency>
+      <groupId>org.drools</groupId>
+      <artifactId>drools-alphanetwork-compiler</artifactId>
+    </dependency>
   </dependencies>
 
   <build>
