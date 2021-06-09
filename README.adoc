@@ -1,0 +1,12 @@
+= getDeclaredMethods() violates contract
+
+The getDeclaredMethods() javadoc explictly states "Returns an array containing Method objects reflecting all the declared methods of the class
+or interface represented by this Class object, including public, protected, default (package) access, and private methods, but *excluding inherited methods.* "
+
+Running `mvn quarkus:dev` returns "getValue, getId, setValue", which is incorrect since `getId` is inherited from a superclass.
+
+Expected output:
+"getValue, setValue"
+
+Actual output:
+"getValue, getId, setValue"
