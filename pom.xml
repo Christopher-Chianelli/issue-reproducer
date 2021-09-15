@@ -6,19 +6,19 @@
   <parent>
     <groupId>org.optaplanner</groupId>
     <artifactId>optaplanner-build-parent</artifactId>
-    <version>8.0.0-SNAPSHOT</version>
+    <version>8.12.0-SNAPSHOT</version>
     <relativePath/>
   </parent>
 
   <groupId>org.optaplanner</groupId>
   <artifactId>issue-reproducer</artifactId>
-  <version>8.0.0-SNAPSHOT</version>
+  <version>8.12.0-SNAPSHOT</version>
   <name>Issue Reproducer</name>
 
   <dependencies>
     <dependency>
       <groupId>org.optaplanner</groupId>
-      <artifactId>optaplanner-quarkus</artifactId>
+      <artifactId>optaplanner-core</artifactId>
     </dependency>
   </dependencies>
 
