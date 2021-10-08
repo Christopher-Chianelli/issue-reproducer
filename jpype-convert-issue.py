@@ -18,8 +18,7 @@ class MySequence:
         return len(self.items)
 
 
-@_jcustomizer.JConversion("java.util.Collection", instanceof=MySequence,
-                          excludes=str)
+@_jcustomizer.JConversion("java.util.Collection", instanceof=MySequence)
 def _MySequenceConvert(jcls, obj):
     return JClass('java.util.Arrays').asList(obj)
 
