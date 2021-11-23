@@ -1,6 +1,6 @@
-# JConversion does not work for java.lang.Class
+# Ambiguous overload found for functional interfaces with different argument counts
 
-When looking for overloads for methods, java.lang.Class conversions are ignored.
+When finding overloads for methods, a Python function maps to all functional interfaces, including functional interfaces that accept a different argument count
 
 # Build and Run
 
@@ -9,15 +9,16 @@ mvn clean install
 python -m venv venv
 source venv/bin/activate
 pip install -r requirements.txt
-python jpype-convert-issue.py
+python jpype-ambiguous-overloads-issue.py
 ```
 
 # Expected Behavior
 
-Either an error on the JConversion that says conversions for 'java.lang.Class' are not
-possible or no assert error being raised
+No error being raised; in particular, the overload for BiFunction will be called if the Python function takes two arguments, the overload for Function will be called if the Python function takes one argument, No overload found otherwise.
 
 # Actual Behavior
 
-TypeError: No matching overloads found for *static* org.acme.MyClass.getClassSimpleName(ProxyClassInstance), options are:
-	public static java.lang.String org.acme.MyClass.getClassSimpleName(java.lang.Class)
+TypeError: Ambiguous overloads found for org.acme.MyClass.apply(function) between:
+public static java.lang.String org.acme.MyClass.apply(java.util.function.BiFunction)
+public static java.lang.String org.acme.MyClass.apply(java.util.function.Function)
+
