@@ -14,7 +14,7 @@ public class MyPlanningSolution {
     @PlanningEntityCollectionProperty
     List<MyPlanningEntity> planningEntityList;
 
-    @ValueRangeProvider(id="valueRange")
+    @ValueRangeProvider(id = "valueRange")
     IntValueRange valueRange = new IntValueRange(0, 1);
 
     @PlanningScore

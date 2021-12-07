@@ -9,8 +9,9 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.event.Observes;
 import javax.inject.Inject;
 
-import io.quarkus.runtime.StartupEvent;
 import org.optaplanner.core.api.solver.SolverManager;
+
+import io.quarkus.runtime.StartupEvent;
 
 @ApplicationScoped
 public class IssueReproducerApplication {
