@@ -1,4 +1,4 @@
-package org.optaplanner.issue.reproducer;
+package org.acme.schooltimetabling;
 
 import java.util.logging.Logger;
 

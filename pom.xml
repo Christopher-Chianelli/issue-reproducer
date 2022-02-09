@@ -1,42 +1,57 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <parent>
-    <groupId>org.optaplanner</groupId>
-    <artifactId>optaplanner-build-parent</artifactId>
-    <version>8.0.0-SNAPSHOT</version>
-    <relativePath/>
-  </parent>
 
-  <groupId>org.optaplanner</groupId>
+  <groupId>org.acme</groupId>
   <artifactId>issue-reproducer</artifactId>
-  <version>8.0.0-SNAPSHOT</version>
-  <name>Issue Reproducer</name>
+  <version>1.0-SNAPSHOT</version>
+
+  <properties>
+    <maven.compiler.release>11</maven.compiler.release>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+    <version.io.quarkus>2.7.0.Final</version.io.quarkus>
+
+    <version.compiler.plugin>3.8.1</version.compiler.plugin>
+    <version.surefire.plugin>3.0.0-M5</version.surefire.plugin>
+  </properties>
+
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>io.quarkus</groupId>
+        <!-- Alternatively, use <artifactId>quarkus-universe-bom</artifactId>
+         which includes both quarkus-bom and optaplanner-bom. -->
+        <artifactId>quarkus-bom</artifactId>
+        <version>${version.io.quarkus}</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
 
   <dependencies>
     <dependency>
-      <groupId>org.optaplanner</groupId>
-      <artifactId>optaplanner-quarkus</artifactId>
+      <groupId>io.quarkus</groupId>
+      <artifactId>quarkus-resteasy</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>io.quarkus</groupId>
+      <artifactId>quarkus-kubernetes</artifactId>
     </dependency>
   </dependencies>
 
   <build>
     <plugins>
       <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-dependency-plugin</artifactId>
-        <executions>
-          <execution>
-            <id>analyze-only</id>
-            <phase>none</phase>
-          </execution>
-        </executions>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>${version.compiler.plugin}</version>
       </plugin>
       <plugin>
         <groupId>io.quarkus</groupId>
         <artifactId>quarkus-maven-plugin</artifactId>
+        <version>${version.io.quarkus}</version>
         <executions>
           <execution>
             <goals>
@@ -46,8 +61,8 @@
         </executions>
       </plugin>
       <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-plugin</artifactId>
+        <version>${version.surefire.plugin}</version>
         <configuration>
           <systemPropertyVariables>
             <java.util.logging.manager>org.jboss.logmanager.LogManager</java.util.logging.manager>
@@ -57,5 +72,17 @@
     </plugins>
   </build>
 
-
+  <repositories>
+    <repository>
+      <id>jboss-public-repository-group</id>
+      <url>https://repository.jboss.org/nexus/content/groups/public/</url>
+      <releases>
+        <!-- Get releases only from Maven Central which is faster. -->
+        <enabled>false</enabled>
+      </releases>
+      <snapshots>
+        <enabled>true</enabled>
+      </snapshots>
+    </repository>
+  </repositories>
 </project>
