@@ -6,56 +6,39 @@
   <parent>
     <groupId>org.optaplanner</groupId>
     <artifactId>optaplanner-build-parent</artifactId>
-    <version>8.0.0-SNAPSHOT</version>
+    <version>8.19.0-SNAPSHOT</version>
     <relativePath/>
   </parent>
 
   <groupId>org.optaplanner</groupId>
-  <artifactId>issue-reproducer</artifactId>
-  <version>8.0.0-SNAPSHOT</version>
+  <artifactId>issue-reproducer-parent</artifactId>
+  <version>8.19.0-SNAPSHOT</version>
   <name>Issue Reproducer</name>
+  <packaging>pom</packaging>
 
-  <dependencies>
-    <dependency>
-      <groupId>org.optaplanner</groupId>
-      <artifactId>optaplanner-quarkus</artifactId>
-    </dependency>
-  </dependencies>
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>org.optaplanner</groupId>
+        <artifactId>simulation</artifactId>
+        <version>8.19.0-SNAPSHOT</version>
+      </dependency>
+      <dependency>
+        <groupId>org.optaplanner</groupId>
+        <artifactId>app</artifactId>
+        <version>8.19.0-SNAPSHOT</version>
+      </dependency>
+      <dependency>
+        <groupId>org.s</groupId>
+        <artifactId>simulation</artifactId>
+        <version>8.19.0-SNAPSHOT</version>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
 
-  <build>
-    <plugins>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-dependency-plugin</artifactId>
-        <executions>
-          <execution>
-            <id>analyze-only</id>
-            <phase>none</phase>
-          </execution>
-        </executions>
-      </plugin>
-      <plugin>
-        <groupId>io.quarkus</groupId>
-        <artifactId>quarkus-maven-plugin</artifactId>
-        <executions>
-          <execution>
-            <goals>
-              <goal>build</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-surefire-plugin</artifactId>
-        <configuration>
-          <systemPropertyVariables>
-            <java.util.logging.manager>org.jboss.logmanager.LogManager</java.util.logging.manager>
-          </systemPropertyVariables>
-        </configuration>
-      </plugin>
-    </plugins>
-  </build>
-
+  <modules>
+    <module>app</module>
+    <module>simulation</module>
+  </modules>
 
 </project>
