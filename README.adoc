@@ -1,0 +1,15 @@
+= Objects with both isX and getX cannot be recorded
+
+To produce:
+
+- `cd quarkus-issue-reproducer`
+- `mvn clean install`
+
+Expected:
+
+- All tests to pass
+
+Actual:
+
+- Integration test fail: java.lang.NullPointerException: Cannot invoke "java.lang.Boolean.toString()" because the return value of "io.quarkiverse.issue.reproducer.runtime.ProblemObject.getMyBoolean()" is null
+

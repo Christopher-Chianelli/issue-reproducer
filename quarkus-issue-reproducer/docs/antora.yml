@@ -1,0 +1,5 @@
+name: quarkus-issue.reproducer
+title: Quarkus Issue Reproducer
+version: dev
+nav:
+  - modules/ROOT/nav.adoc
