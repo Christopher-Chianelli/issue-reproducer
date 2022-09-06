@@ -1,0 +1,25 @@
+= Multiple Planning Entities in chained model give bad exception
+
+Currently, if a user has multiple planning entities in a chained model,
+the following exception occurs:
+
+----
+java.lang.IllegalArgumentException: object is not an instance of declaring class
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+	at org.optaplanner.core.impl.domain.common.accessor.ReflectionBeanPropertyMemberAccessor.executeGetter(ReflectionBeanPropertyMemberAccessor.java:66)
+	at org.optaplanner.core.impl.domain.variable.descriptor.VariableDescriptor.getValue(VariableDescriptor.java:100)
+    ...
+----
+
+This does not help the user identify the problem.
+
+== Testing
+
+`mvn quarkus:dev`
+
+== Expected Behavior
+
+A better error message if the domain is bad, or for it to not thrown an exception if the domain is good
