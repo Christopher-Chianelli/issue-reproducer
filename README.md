@@ -1,6 +1,7 @@
-# JConversion does not work for java.lang.Class
+# convertStrings=True cut Java returned Strings with NULL bytes short
 
-When looking for overloads for methods, java.lang.Class conversions are ignored.
+When `jpype.startJVM(convertStrings=True)` is used, returned Strings with NULL bytes are cut short.
+This behavior is not observed when `jpype.startJVM(convertStrings=False)` is used.
 
 # Build and Run
 
@@ -14,10 +15,9 @@ python jpype-convert-issue.py
 
 # Expected Behavior
 
-Either an error on the JConversion that says conversions for 'java.lang.Class' are not
-possible or no assert error being raised
+MyClass.getArgument('String\u0000with\u0000NULL\u0000bytes') == 'String\u0000with\u0000NULL\u0000bytes'
 
 # Actual Behavior
 
-TypeError: No matching overloads found for *static* org.acme.MyClass.getClassSimpleName(ProxyClassInstance), options are:
-	public static java.lang.String org.acme.MyClass.getClassSimpleName(java.lang.Class)
+MyClass.getArgument('String\u0000with\u0000NULL\u0000bytes') == 'String'
+
