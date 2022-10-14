@@ -1,0 +1,7 @@
+= Class Cast Exception in ConstraintStreamImplType.DROOLS
+
+To reproduce: `mvn quarkus:dev`
+
+Expected: solving completes successfully
+Actual: Bavet solves successfully, Drools throws ClassCastException
+
