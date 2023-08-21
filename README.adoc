@@ -1,13 +1,90 @@
-= Issue Reproducer: Drools Classloader does not work in Spring Fat Jar for Executable Model
+= Generated OpenAPI schema does not respect @JsonFormat(shape = JsonFormat.Shape.ARRAY)
 
-To reproduce:
-`mvn clean install`
-`java -jar target/DroolsExecutableReproducer-8.0.0-SNAPSHOT-exec.jar`
+== Reproducer
 
-Expected:
-Print 70
+. `cd getting-started`
+. `mvn clean package`
+. `cat target/openapi-schema/openapi.yaml`
 
-Actual:
-An exception related to not being able to find class files. In
-particular, it trying to find the class files in the main jar,
-when they are actually stored in BOOT-INF/drools-lib.jar.
+== Expected
+
+```yaml
+---
+openapi: 3.0.3
+info:
+  title: getting-started API
+  version: 1.0.0-SNAPSHOT
+servers:
+- url: http://localhost:8080
+  description: Auto generated value
+- url: http://0.0.0.0:8080
+  description: Auto generated value
+paths:
+  /hello:
+    get:
+      tags:
+      - Greeting Resource
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GreetingItem'
+components:
+  schemas:
+    GreetingItem:
+      type: array
+      items:
+        type: string
+      minItems: 3
+      maxItems: 3
+  securitySchemes:
+    SecurityScheme:
+      type: http
+      description: Authentication
+      scheme: basic
+```
+
+== Actual
+
+```yaml
+---
+openapi: 3.0.3
+info:
+  title: getting-started API
+  version: 1.0.0-SNAPSHOT
+servers:
+- url: http://localhost:8080
+  description: Auto generated value
+- url: http://0.0.0.0:8080
+  description: Auto generated value
+paths:
+  /hello:
+    get:
+      tags:
+      - Greeting Resource
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GreetingItem'
+components:
+  schemas:
+    GreetingItem:
+      type: object
+      properties:
+        from:
+          type: string
+        to:
+          type: string
+        message:
+          type: string
+  securitySchemes:
+    SecurityScheme:
+      type: http
+      description: Authentication
+      scheme: basic
+```
