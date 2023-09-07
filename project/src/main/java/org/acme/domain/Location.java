@@ -6,6 +6,7 @@ public class Location {
     @PlanningId
     String id;
 
+
     public Location() {}
 
     public Location(String id) {
