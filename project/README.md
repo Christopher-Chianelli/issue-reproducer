@@ -1,4 +1,4 @@
-= EntityScanner.scan fails to return annotated classes in native mode
+# EntityScanner.scan fails to return annotated classes in native mode
 
 This is a demo of the root cause of why we need to do AOT generated classes.
 ClassLoadingPostProcessor scan for classes with specific annotations and use
