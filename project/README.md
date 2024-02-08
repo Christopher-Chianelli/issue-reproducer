@@ -1,14 +1,18 @@
-# EntityScanner.scan fails to return annotated classes in native mode
+# Registering java.lang.Class using ReflectionHints causes ObjectMapper to not be usable inside AOT code
 
-This is a demo of the root cause of why we need to do AOT generated classes.
-ClassLoadingPostProcessor scan for classes with specific annotations and use
-it to register beans.
-Outside of native mode, this works fine.
-In native mode, an empty list is returned, even though all the classes are
-registered for reflection.
-
-Because of this, we need to create an AOT processor that prebuilds the
-result (and thus does no classpath scanning) (not shown here for brevity).
+This is a demo that demostrates the need to have a good way to
+recursively register a type and the types of all its fields for
+reflection. In ClassLoadingAotContribution, there is a hard
+to spot issue in registerForReflection: it will register
+java.lang.Class for reflection, since MyAnnotatedClass has
+a Class<?> field. This causes GraalVM to think the
+unsupported field java.lang.ClassValue.hashCodeForCache is reachable,
+even though the ObjectMapper will not access it. To fix the issue,
+registerForReflection must not register java.lang.Class or
+java.lang.ClassLoader. You can verify this is indeed the cause
+by making `BANNED_CLASSES = Set.of(Class.class)` instead of
+`BANNED_CLASSES = Set.of();`, which will cause the native
+tests to pass.
 
 Run with
 

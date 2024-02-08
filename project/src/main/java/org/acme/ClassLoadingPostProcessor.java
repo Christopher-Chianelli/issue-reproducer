@@ -33,10 +33,13 @@ public class ClassLoadingPostProcessor implements ApplicationContextAware, BeanF
         try {
             Set<Class<?>> classSet = entityScanner.scan(MyAnnotation.class);
             if (classSet.isEmpty()) {
-                throw new IllegalStateException("Unable to find any classes annotated with " + MyAnnotation.class);
+                // AOT Processor will handle it
+                return;
             }
             for (Class<?> clazz : classSet) {
-                beanFactory.registerSingleton(clazz.getSimpleName(), clazz.getConstructor().newInstance());
+                MyAnnotatedClass instance = (MyAnnotatedClass) clazz.getConstructor().newInstance();
+                instance.setType(clazz);
+                beanFactory.registerSingleton(clazz.getSimpleName(), instance);
             }
         } catch (ClassNotFoundException | InvocationTargetException | InstantiationException | IllegalAccessException |
                 NoSuchMethodException e) {

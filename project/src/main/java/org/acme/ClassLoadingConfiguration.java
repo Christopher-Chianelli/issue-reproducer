@@ -5,8 +5,12 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-@RegisterReflectionForBinding(MyAnnotatedClass.class)
 public class ClassLoadingConfiguration {
+    @Bean
+    public static ClassLoadingAotProcessor getClassLoadingAotProcessor() {
+        return new ClassLoadingAotProcessor();
+    }
+
     @Bean
     public static ClassLoadingPostProcessor getClassLoadingPostProcessor() {
         return new ClassLoadingPostProcessor();

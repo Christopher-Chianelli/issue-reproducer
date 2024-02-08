@@ -16,6 +16,6 @@ public class MyController {
 
     @GetMapping(produces = MediaType.TEXT_PLAIN_VALUE)
     public String helloWorld() {
-        return classInstance.getClass().getSimpleName();
+        return classInstance.getType().getSimpleName();
     }
 }
