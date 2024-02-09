@@ -1,7 +1,5 @@
 package org.acme;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.aot.generate.GeneratedMethod;
 import org.springframework.aot.generate.GenerationContext;
 import org.springframework.aot.hint.MemberCategory;
@@ -11,8 +9,6 @@ import org.springframework.beans.factory.aot.BeanFactoryInitializationCode;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.javapoet.CodeBlock;
 
-import java.io.IOException;
-import java.io.StringWriter;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
@@ -22,10 +18,7 @@ import java.util.Set;
 
 public class ClassLoadingAotContribution implements BeanFactoryInitializationAotContribution {
     final Set<Class<?>> classSet;
-    final static Set<Class<?>> BANNED_CLASSES = Set.of();
-    // Uncomment to see that if java.lang.Class is never registered for reflection,
-    // ObjectMapper works
-    // final static Set<Class<?>> BANNED_CLASSES = Set.of(Class.class);
+    final static Set<Class<?>> BANNED_CLASSES = Set.of(Class.class);
 
     public ClassLoadingAotContribution(Set<Class<?>> classSet) {
         this.classSet = classSet;
@@ -66,29 +59,19 @@ public class ClassLoadingAotContribution implements BeanFactoryInitializationAot
         GeneratedMethod generatedMethod = beanFactoryInitializationCode.getMethods().add("registerBeans", builder -> {
             builder.addParameter(ConfigurableListableBeanFactory.class, "beanFactory");
             var code = CodeBlock.builder();
-            code.beginControlFlow("try");
             code.add("$T<Object> beans = new $T($L);\n", List.class, ArrayList.class, classSet.size());
-            code.add("$T objectMapper = new $T();\n", ObjectMapper.class, ObjectMapper.class);
             for (Class<?> type : classSet) {
                 try {
                     MyAnnotatedClass instance = (MyAnnotatedClass) type.getConstructor().newInstance();
                     instance.setType(instance.getClass());
-                    StringWriter xml = new StringWriter();
-                    ObjectMapper objectMapper = new ObjectMapper();
-                    objectMapper.writeValue(xml, instance);
-
-                    code.add("beans.add(objectMapper.readerFor($T.class).readValue($S));\n",
-                            instance.getClass(),
-                            xml.toString());
-                } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException | IOException e) {
+                    code.add("$T instance = new $T();\n", instance.getClass(), instance.getClass());
+                    code.add("instance.setType($T.class);\n", instance.getClass());
+                    code.add("beans.add(instance);\n");
+                } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
                     throw new RuntimeException(e);
                 }
             }
             code.add("$T.registerBeans(beanFactory, beans);\n", ClassLoadingAotContribution.class);
-            code.endControlFlow();
-            code.beginControlFlow("catch ($T e)", JsonProcessingException.class);
-            code.add("throw new $T(e);\n", RuntimeException.class);
-            code.endControlFlow();
             builder.addCode(code.build());
         });
         beanFactoryInitializationCode.addInitializer(generatedMethod.toMethodReference());
