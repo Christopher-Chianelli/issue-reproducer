@@ -1,0 +1,8 @@
+[
+  {
+    "name":"org.acme.MyAnnotatedClass",
+    "allDeclaredFields":true,
+    "queryAllDeclaredMethods":true,
+    "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"getType","parameterTypes":[] }]
+  }
+]
