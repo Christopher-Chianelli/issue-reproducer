@@ -1,24 +1,19 @@
 package org.acme;
 
 import org.springframework.beans.BeansException;
-import org.springframework.beans.factory.config.BeanFactoryPostProcessor;
+import org.springframework.beans.factory.aot.BeanFactoryInitializationAotContribution;
+import org.springframework.beans.factory.aot.BeanFactoryInitializationAotProcessor;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
-import org.springframework.boot.autoconfigure.AutoConfigurationPackages;
-import org.springframework.boot.autoconfigure.domain.EntityScanPackages;
+import org.springframework.beans.factory.support.BeanDefinitionRegistry;
+import org.springframework.beans.factory.support.BeanDefinitionRegistryPostProcessor;
+import org.springframework.beans.factory.support.RootBeanDefinition;
 import org.springframework.boot.autoconfigure.domain.EntityScanner;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.lang.reflect.InvocationTargetException;
-import java.util.HashSet;
 import java.util.Set;
-import java.util.stream.Collectors;
 
-public class ClassLoadingPostProcessor implements ApplicationContextAware, BeanFactoryPostProcessor {
+public class ClassLoadingPostProcessor implements ApplicationContextAware, BeanDefinitionRegistryPostProcessor, BeanFactoryInitializationAotProcessor {
 
     ApplicationContext context;
 
@@ -28,7 +23,7 @@ public class ClassLoadingPostProcessor implements ApplicationContextAware, BeanF
     }
 
     @Override
-    public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException {
+    public void postProcessBeanDefinitionRegistry(BeanDefinitionRegistry registry) throws BeansException {
         EntityScanner entityScanner = new EntityScanner(context);
         try {
             Set<Class<?>> classSet = entityScanner.scan(MyAnnotation.class);
@@ -36,11 +31,16 @@ public class ClassLoadingPostProcessor implements ApplicationContextAware, BeanF
                 throw new IllegalStateException("Unable to find any classes annotated with " + MyAnnotation.class);
             }
             for (Class<?> clazz : classSet) {
-                beanFactory.registerSingleton(clazz.getSimpleName(), clazz.getConstructor().newInstance());
+                registry.registerBeanDefinition(clazz.getSimpleName(), new RootBeanDefinition(clazz));
             }
-        } catch (ClassNotFoundException | InvocationTargetException | InstantiationException | IllegalAccessException |
-                NoSuchMethodException e) {
+        } catch (ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    @Override
+    public BeanFactoryInitializationAotContribution processAheadOfTime(ConfigurableListableBeanFactory beanFactory) {
+        // Nothing to do, beans have already been contributed at build-time.
+        return null;
     }
 }
