@@ -3,6 +3,7 @@ package org.acme;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanFactoryPostProcessor;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
+import org.springframework.beans.factory.support.BeanDefinitionRegistryPostProcessor;
 import org.springframework.boot.autoconfigure.AutoConfigurationPackages;
 import org.springframework.boot.autoconfigure.domain.EntityScanPackages;
 import org.springframework.boot.autoconfigure.domain.EntityScanner;
@@ -18,6 +19,15 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+/**
+ * This class should be implemented as a {@link BeanDefinitionRegistryPostProcessor}
+ * (see <a href="https://github.com/Christopher-Chianelli/issue-reproducer/pull/1">this PR</a>).
+ * However, to show that {@link EntityScanner} returns nothing in native at runtime
+ * (as now noted in the
+ * <a href="https://docs.spring.io/spring-framework/reference/core/aot.html">the Spring AOT docs</a>),
+ * it is implemented as a {@link BeanFactoryPostProcessor} that uses an {@link EntityScanner}
+ * to register classes.
+ */
 public class ClassLoadingPostProcessor implements ApplicationContextAware, BeanFactoryPostProcessor {
 
     ApplicationContext context;
