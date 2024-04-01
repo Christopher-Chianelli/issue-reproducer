@@ -1,6 +1,6 @@
-# Ambiguous overload found for functional interfaces with different argument counts
+# PyTest failure in Python 3.11 and above
 
-When finding overloads for methods, a Python function maps to all functional interfaces, including functional interfaces that accept a different argument count
+When a generated class is called from python and throws an exception, PyTest get an internal error
 
 # Build and Run
 
@@ -9,16 +9,20 @@ mvn clean install
 python -m venv venv
 source venv/bin/activate
 pip install -r requirements.txt
-python jpype-ambiguous-overloads-issue.py
+pytest
 ```
 
 # Expected Behavior
 
-No error being raised; in particular, the overload for BiFunction will be called if the Python function takes two arguments, the overload for Function will be called if the Python function takes one argument, No overload found otherwise.
+All tests being run and the exception being reported
 
 # Actual Behavior
 
-TypeError: Ambiguous overloads found for org.acme.MyClass.apply(function) between:
-public static java.lang.String org.acme.MyClass.apply(java.util.function.BiFunction)
-public static java.lang.String org.acme.MyClass.apply(java.util.function.Function)
+An internal error ending with
+```text
+INTERNALERROR>   File ".../venv/lib64/python3.12/site-packages/_pytest/_code/code.py", line 212, in lineno
+INTERNALERROR>     return self._rawentry.tb_lineno - 1
+INTERNALERROR>            ~~~~~~~~~~~~~~~~~~~~~~~~~^~~
+INTERNALERROR> TypeError: unsupported operand type(s) for -: 'NoneType' and 'int'
+```
 
