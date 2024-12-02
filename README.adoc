@@ -1,13 +1,16 @@
-= Issue Reproducer: Drools Classloader does not work in Spring Fat Jar for Executable Model
+= Quarkus with RESTEasy fails to build natively with Java 17 latest Community GraalVM
 
-To reproduce:
-`mvn clean install`
-`java -jar target/DroolsExecutableReproducer-8.0.0-SNAPSHOT-exec.jar`
+- `sdk install java 17.0.9-graalce`
+- `# Replace ~ with path to home directory`
+- `export GRAALVM_HOME='~/.sdkman/candidates/java/17.0.12-graal'`
+- `cd issue-reproducer`
+- `mvn clean install -Pnative`
 
 Expected:
-Print 70
+
+Built without error
 
 Actual:
-An exception related to not being able to find class files. In
-particular, it trying to find the class files in the main jar,
-when they are actually stored in BOOT-INF/drools-lib.jar.
+
+Error: Classes that should be initialized at run time got initialized during image building:
+ io.netty.buffer.UnpooledUnsafeDirectByteBuf the class was requested to be initialized at run time (subtype of io.netty.buffer.AbstractReferenceCountedByteBuf). To see why io.netty.buffer.UnpooledUnsafeDirectByteBuf got initialized use --trace-class-initialization=io.netty.buffer.UnpooledUnsafeDirectByteBuf
