@@ -1,0 +1,27 @@
+= Quarkus Extension test failure at startup
+
+Currently Quarkus supports testing exceptions at
+
+- Build time
+- After startup
+
+However, testing exceptions during startup is unsupported.
+Exceptions at startup can occur because of a runtime property
+that is incompatiable with other runtime properties. For
+example, having a password without a username.
+
+If you use `QuarkusUnitTest.assertException`, you get
+`AssertionFailedError: The build was expected to fail`.
+
+If you try to test the failure without `QuarkusUnitTest.assertException`,
+you get `TestInstantiationException: Failed to create test instance`
+with the runtime exception as the root cause.
+
+This makes it impossible to test startup failures due to runtime config
+properties, as there is nowhere to hook the exception assertion code.
+
+== Reproduce
+
+- `cd my-ext`
+- `mvn clean install`
+
